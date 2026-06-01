@@ -50,6 +50,15 @@ function refresh() {
 }
 
 /**
+ * Show the status bar item and refresh views after activation.
+ * Exported so other commands can display the status when joining an existing env.
+ */
+export function showStatus() {
+    statusBarItem.show();
+    refresh();
+}
+
+/**
  * Activates the environment if not already activated.
  *
  * Configures its name, shows the status bar item, activates all open terminals, and refreshes the environment views.

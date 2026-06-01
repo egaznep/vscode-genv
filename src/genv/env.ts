@@ -19,7 +19,11 @@ let state: State = {
 	indices: [],
 };
 
-export const eid: string = `${process.pid}`;
+export let eid: string = `${process.pid}`;
+
+export function setEid(newEid: string) {
+	eid = newEid;
+}
 
 export function activated(): boolean {
 	return state.activated;
@@ -40,6 +44,19 @@ export function attached(): boolean {
 export async function activate() {
 	if (!state.activated) {
 		const info = os.userInfo();
+		await envs.activate(process.pid, eid, info.uid, info.username);
+		state.activated = true;
+	}
+}
+
+/**
+ * Join an existing environment identified by `existingEid`.
+ * Sets the current `eid` to the existing environment id and registers this process with it.
+ */
+export async function joinExisting(existingEid: string) {
+	if (!state.activated) {
+		const info = os.userInfo();
+		setEid(existingEid);
 		await envs.activate(process.pid, eid, info.uid, info.username);
 		state.activated = true;
 	}

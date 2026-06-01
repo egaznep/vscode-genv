@@ -124,6 +124,11 @@
         "icon": "$(refresh)"
       },
       {
+        "command": "genv.envs.activateExisting",
+        "title": "Join Existing Environment",
+        "category": "GPUs"
+      },
+      {
         "command": "genv.system.refresh",
         "title": "Refresh System Information",
         "category": "GPUs",
@@ -181,6 +186,10 @@
           "when": "genv.installation.installed"
         },
         {
+          "command": "genv.envs.activateExisting",
+          "when": "genv.installation.installed"
+        },
+        {
           "command": "genv.system.refresh"
         }
       ],
@@ -230,6 +239,11 @@
         {
           "command": "genv.env.attachDevice",
           "when": "view == genv.devices && viewItem == attach",
+          "group": "inline"
+        },
+        {
+          "command": "genv.envs.activateExisting",
+          "when": "view == genv.envs",
           "group": "inline"
         },
         {
