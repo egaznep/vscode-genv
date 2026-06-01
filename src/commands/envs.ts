@@ -15,6 +15,7 @@ export function init(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.window.registerTreeDataProvider('genv.envs', provider));
 	context.subscriptions.push(vscode.commands.registerCommand('genv.envs.refresh', refresh));
 	context.subscriptions.push(vscode.commands.registerCommand('genv.envs.activateExisting', activateExisting));
+	context.subscriptions.push(vscode.commands.registerCommand('genv.envs.deactivate', deactivate));
 }
 
 /**
@@ -24,7 +25,7 @@ function refresh() {
     provider.refresh();
 }
 
-async function activateExisting(treeItem?: vscode.TreeItem) {
+export async function activateExisting(treeItem?: vscode.TreeItem) {
     let selectedEid: string | undefined;
 
     if (treeItem && treeItem.label) {
@@ -63,5 +64,24 @@ async function activateExisting(treeItem?: vscode.TreeItem) {
         vscode.commands.executeCommand('genv.envs.refresh');
         vscode.commands.executeCommand('genv.devices.refresh');
         vscode.commands.executeCommand('setContext', 'genv.env.activated', true);
+    }
+}
+
+export async function deactivate() {
+    if (env.activated()) {
+        try {
+            await env.detach();
+        } catch (err: any) {
+            vscode.window.showErrorMessage(`${err}`);
+            return;
+        }
+
+        envCommands.showStatus();
+
+        vscode.commands.executeCommand('genv.envs.refresh');
+        vscode.commands.executeCommand('genv.devices.refresh');
+        vscode.commands.executeCommand('setContext', 'genv.env.activated', false);
+    } else {
+        vscode.window.showWarningMessage('No active environment to deactivate');
     }
 }

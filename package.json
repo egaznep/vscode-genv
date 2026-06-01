@@ -43,6 +43,8 @@
     "onCommand:genv.devices.refresh",
     "onCommand:genv.envs.refresh",
     "onCommand:genv.system.refresh",
+    "onCommand:genv.envs.activateExisting",
+    "onCommand:genv.envs.deactivate",
     "onView:genv.env",
     "onView:genv.devices",
     "onView:genv.envs",
@@ -129,6 +131,11 @@
         "category": "GPUs"
       },
       {
+        "command": "genv.envs.deactivate",
+        "title": "Deactivate Environment",
+        "category": "GPUs"
+      },
+      {
         "command": "genv.system.refresh",
         "title": "Refresh System Information",
         "category": "GPUs",
@@ -148,6 +155,10 @@
         {
           "command": "genv.env.activate",
           "when": "genv.installation.installed && !genv.env.activated"
+        },
+      {
+          "command": "genv.envs.deactivate",
+          "when": "genv.installation.installed && genv.env.activated"
         },
         {
           "command": "genv.env.config.gpus",
