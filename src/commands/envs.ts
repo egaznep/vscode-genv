@@ -64,6 +64,7 @@ export async function activateExisting(treeItem?: vscode.TreeItem) {
         vscode.commands.executeCommand('genv.envs.refresh');
         vscode.commands.executeCommand('genv.devices.refresh');
         vscode.commands.executeCommand('setContext', 'genv.env.activated', true);
+        refresh();        
     }
 }
 
