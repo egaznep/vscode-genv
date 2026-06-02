@@ -1,0 +1,33 @@
+# GitHub action to release a new version of the extension as a Github Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*.*.*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install
+      - name: Build extension
+        run: npm run package
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref }}
+          name: Release ${{ github.ref }}
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: |
+            vscode-genv-*.vsix
