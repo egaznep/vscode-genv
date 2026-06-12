@@ -1,4 +1,4 @@
-# GitHub action to release a new version of the extension as a Github Release
+# GitHub action to release a new version of the extension as a GitHub Release
 
 on:
   push:

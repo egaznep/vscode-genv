@@ -28,6 +28,11 @@ function refresh() {
 export async function activateExisting(treeItem?: vscode.TreeItem) {
     let selectedEid: string | undefined;
 
+    if (env.activated()) {
+         vscode.window.showWarningMessage('Already running in an activated GPU environment');
+         return;
+     }
+
     if (treeItem && treeItem.label) {
         const label = treeItem.label as string;
         const match = label.match(/^([^\s(]+)/);
@@ -72,6 +77,8 @@ export async function deactivate() {
     if (env.activated()) {
         try {
             await env.detach();
+            vscode.window.terminals.forEach(terminal.deactivate);
+            await env.deactivate();
         } catch (err: any) {
             vscode.window.showErrorMessage(`${err}`);
             return;
@@ -82,6 +89,7 @@ export async function deactivate() {
         vscode.commands.executeCommand('genv.envs.refresh');
         vscode.commands.executeCommand('genv.devices.refresh');
         vscode.commands.executeCommand('setContext', 'genv.env.activated', false);
+        refresh();
     } else {
         vscode.window.showWarningMessage('No active environment to deactivate');
     }

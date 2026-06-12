@@ -49,6 +49,12 @@ export async function activate() {
 	}
 }
 
+export async function deactivate() {
+	state.activated = false;
+	state.config = {};
+	state.indices = [];
+}
+
 /**
  * Join an existing environment identified by `existingEid`.
  * Sets the current `eid` to the existing environment id and registers this process with it.
