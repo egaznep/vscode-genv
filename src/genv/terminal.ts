@@ -18,6 +18,10 @@ export function activate(terminal: vscode.Terminal) {
     terminal.sendText(`genv activate --id ${env.eid} --no-load --no-attach --no-prompt`);
 }
 
+export function deactivate(terminal: vscode.Terminal) {
+    terminal.sendText(`genv deactivate`);
+}
+
 /**
  * Activates a terminal only if the environment is active.
  */

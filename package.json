@@ -1,7 +1,7 @@
 {
   "name": "vscode-genv",
   "publisher": "run-ai",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "displayName": "GPU Environments",
   "description": "Lets you interactively control, configure and monitor the GPU resources that you are using.",
   "icon": "resources/genv.png",
@@ -43,6 +43,8 @@
     "onCommand:genv.devices.refresh",
     "onCommand:genv.envs.refresh",
     "onCommand:genv.system.refresh",
+    "onCommand:genv.envs.activateExisting",
+    "onCommand:genv.envs.deactivate",
     "onView:genv.env",
     "onView:genv.devices",
     "onView:genv.envs",
@@ -124,6 +126,16 @@
         "icon": "$(refresh)"
       },
       {
+        "command": "genv.envs.activateExisting",
+        "title": "Join Existing Environment",
+        "category": "GPUs"
+      },
+      {
+        "command": "genv.envs.deactivate",
+        "title": "Deactivate Environment",
+        "category": "GPUs"
+      },
+      {
         "command": "genv.system.refresh",
         "title": "Refresh System Information",
         "category": "GPUs",
@@ -143,6 +155,10 @@
         {
           "command": "genv.env.activate",
           "when": "genv.installation.installed && !genv.env.activated"
+        },
+      {
+          "command": "genv.envs.deactivate",
+          "when": "genv.installation.installed && genv.env.activated"
         },
         {
           "command": "genv.env.config.gpus",
@@ -178,6 +194,10 @@
         },
         {
           "command": "genv.envs.refresh",
+          "when": "genv.installation.installed"
+        },
+        {
+          "command": "genv.envs.activateExisting",
           "when": "genv.installation.installed"
         },
         {
@@ -230,6 +250,11 @@
         {
           "command": "genv.env.attachDevice",
           "when": "view == genv.devices && viewItem == attach",
+          "group": "inline"
+        },
+        {
+          "command": "genv.envs.activateExisting",
+          "when": "view == genv.envs",
           "group": "inline"
         },
         {
